@@ -1,21 +1,20 @@
 import math
 
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
 from enum import Enum, auto
 from typing import TypeVar
 
 
 class Asset(Enum):
+    CASH = auto(),
     ETF_GLOBAL_STOCK = auto(),
+    EXPENSES = auto(),
+    SALARY = auto(),
     SAVINGS_ACCOUNT_VARIABLE_RATE = auto(),
 
 
 class AssetProvider(ABC):
     @abstractmethod
-    def asset(self) -> Asset:
-        ...
-
     def update_value(self, year: float, increment: float) -> None:
         """Update the asset value.
 
@@ -35,15 +34,15 @@ AssetProviderType = TypeVar('AssetProviderType', bound=AssetProvider)
 
 class ConstantGeomIncreaseAsset(AssetProvider):
     # A value of 0.05 indicates 5% growth each year
+    starting_value: float
     growth_rate: float
 
-    _asset: Asset
     _value: float
 
-    def __init__(self, asset: Asset, growth_rate: float):
-        self._asset = asset
+    def __init__(self, starting_value: float, growth_rate: float):
+        self.starting_value = starting_value
         self.growth_rate = growth_rate
-        self._value = 100.0
+        self._value = starting_value
 
     def update_value(self, _year: float, increment: float) -> None:
         if not math.isnan(increment):
@@ -51,6 +50,3 @@ class ConstantGeomIncreaseAsset(AssetProvider):
 
     def value(self) -> float:
         return self._value
-
-    def asset(self) -> Asset:
-        return self._asset

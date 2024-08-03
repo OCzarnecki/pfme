@@ -2,8 +2,9 @@ from er_calc.asset import Asset, AssetProviderType
 
 
 class Portfolio:
-    # Maps assets to number of units held
     providers: dict[Asset, AssetProviderType]
+
+    # Maps assets to number of units held
     asset_holdings: dict[Asset, float]
 
     def __init__(self, providers: dict[Asset, AssetProviderType]):
@@ -31,3 +32,18 @@ class Portfolio:
             asset_provider = self.providers[asset]
             cash_units = cash / asset_provider.value()
             self.asset_holdings[asset] += cash_units
+
+    def current_value(self):
+        return sum(
+            self.providers[asset].value() * units
+            for asset, units in self.asset_holdings.items()
+        )
+
+    def asset_value_per_unit(self, asset: Asset):
+        return self.providers[asset].value()
+
+    def units_of_asset_held(self, asset: Asset):
+        return self.asset_holdings[asset]
+
+    def cash_of_asset_held(self, asset: Asset):
+        return self.units_of_asset_held(asset) * self.asset_value_per_unit(asset)

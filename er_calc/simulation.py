@@ -1,5 +1,7 @@
 import numpy as np
 
+from tqdm.auto import tqdm
+
 from er_calc.asset import Asset, AssetProviderType
 from er_calc.config import SimulationConfig
 from er_calc.metric import RunMetricType
@@ -20,28 +22,29 @@ class Simulation:
     ):
         self.metrics = metrics
         self.strategies = strategies
+        self.config = config
 
         collected_assets = set()
         for strategy in self.strategies:
-            collected_assets += strategy.requested_assets()
+            collected_assets |= strategy.requested_assets()
         for metric in self.metrics:
-            collected_assets += metric.requested_assets()
+            collected_assets |= metric.requested_assets()
 
-        self.assets = [
-            self.config.asset_provider_mapping[asset]
+        self.asset_providers = {
+            asset: self.config.asset_provider_mapping[asset]
             for asset in collected_assets
-        ]
+        }
 
     def run(self) -> None:
         c = self.config
-        portfolio = Portfolio(self.assets)
+        portfolio = Portfolio(self.asset_providers)
 
-        for asset in self.assets:
-            asset.update_value(c.start_year, np.nan)
-        for year in np.arange(c.start_year, c.end_year, c.increment):
+        for asset_provider in self.asset_providers.values():
+            asset_provider.update_value(c.start_year, np.nan)
+        for year in tqdm(np.arange(c.start_year, c.end_year, c.increment)):
             for strategy in self.strategies:
                 strategy.execute(portfolio, year, c.increment)
             for metric in self.metrics:
-                metric.calculate(portfolio, year, c.increment)
-            for asset in self.assets:
-                asset.update_value(portfolio, year, c.increment)
+                metric.record(portfolio, year)
+            for asset_provider in self.asset_providers.values():
+                asset_provider.update_value(year, c.increment)
