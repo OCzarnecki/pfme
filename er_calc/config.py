@@ -6,9 +6,9 @@ from dataclasses import dataclass, field
 
 import argparse
 
-from er_calc.asset import Asset, AssetProvider, ConstantGeomIncreaseAsset
-from er_calc.metric import RunMetricType
-from er_calc.strategy import StrategyType
+from pfme.asset import Asset, AssetProvider, ConstantGeomIncreaseAsset
+from pfme.metric import RunMetricType
+from pfme.strategy import StrategyType
 
 
 @dataclass

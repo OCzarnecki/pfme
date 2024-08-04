@@ -3,8 +3,8 @@ import datetime as dt
 import importlib.util
 import json
 
-from er_calc.config import SimulationConfig
-from er_calc.simulation import Simulation
+from pfme.config import SimulationConfig
+from pfme.simulation import Simulation
 
 
 def parse_args() -> argparse.Namespace:
@@ -22,7 +22,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def load_simulation_config(config_path: str) -> SimulationConfig:
-    spec = importlib.util.spec_from_file_location("er_calc._dynamically_loaded.config", config_path)
+    spec = importlib.util.spec_from_file_location("pfme._dynamically_loaded.config", config_path)
 
     if spec is None:
         raise ValueError(f"Config path didn't point to a valid python file: {config_path}.")

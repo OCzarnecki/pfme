@@ -3,11 +3,11 @@ import math
 import numpy as np
 from tqdm.auto import tqdm
 
-from er_calc.asset import Asset, AssetProviderType
-from er_calc.config import SimulationConfig
-from er_calc.metric import RunMetricType
-from er_calc.portfolio import Portfolio
-from er_calc.strategy import StrategyType
+from pfme.asset import Asset, AssetProviderType
+from pfme.config import SimulationConfig
+from pfme.metric import RunMetricType
+from pfme.portfolio import Portfolio
+from pfme.strategy import StrategyType
 
 
 class Simulation:

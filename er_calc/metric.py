@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import TypeVar
 
-from er_calc.asset import Asset
-from er_calc.portfolio import Portfolio
+from pfme.asset import Asset
+from pfme.portfolio import Portfolio
 
 
 class RunMetric(ABC):

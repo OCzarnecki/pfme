@@ -1,7 +1,7 @@
 from enum import Enum, auto
 from collections import defaultdict
 
-from er_calc.asset import Asset, AssetProviderType
+from pfme.asset import Asset, AssetProviderType
 
 
 class Expense(Enum):

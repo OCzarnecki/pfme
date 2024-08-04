@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from er_calc.asset import Asset, ConstantGeomIncreaseAsset
-from er_calc.portfolio import Portfolio
+from pfme.asset import Asset, ConstantGeomIncreaseAsset
+from pfme.portfolio import Portfolio
 
 
 class TestPortfolio(TestCase):

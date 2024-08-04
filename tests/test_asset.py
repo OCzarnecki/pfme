@@ -2,7 +2,7 @@ import math
 
 from unittest import TestCase
 
-from er_calc.asset import Asset, ConstantGeomIncreaseAsset
+from pfme.asset import Asset, ConstantGeomIncreaseAsset
 
 
 class TestConstantGeomIncreaseAsset(TestCase):

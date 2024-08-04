@@ -4,8 +4,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import TypeVar
 
-from er_calc.asset import Asset
-from er_calc.portfolio import Portfolio, Expense, Income
+from pfme.asset import Asset
+from pfme.portfolio import Portfolio, Expense, Income
 
 
 @dataclass

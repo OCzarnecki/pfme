@@ -1,8 +1,8 @@
 from unittest import TestCase
 
-from er_calc.asset import Asset, ConstantGeomIncreaseAsset
-from er_calc.portfolio import Portfolio
-from er_calc.strategy import (
+from pfme.asset import Asset, ConstantGeomIncreaseAsset
+from pfme.portfolio import Portfolio
+from pfme.strategy import (
     CombinedStrategy,
     LimitedDurationStrategy,
     FixedYearlyInvestmentStrategy,
