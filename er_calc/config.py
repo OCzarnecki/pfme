@@ -7,11 +7,16 @@ from dataclasses import dataclass, field
 import argparse
 
 from er_calc.asset import Asset, AssetProvider, ConstantGeomIncreaseAsset
+from er_calc.metric import RunMetricType
+from er_calc.strategy import StrategyType
 
 
 @dataclass
 class SimulationConfig:
     # Size of simulation step [years]
+    metrics: list[RunMetricType]
+    strategies: list[StrategyType]
+
     increment: float = 1.0
 
     start_year: float = float(dt.date.today().year)
@@ -22,6 +27,7 @@ class SimulationConfig:
         Asset.ETF_GLOBAL_STOCK: ConstantGeomIncreaseAsset(100.0, 0.06),
         Asset.CASH: ConstantGeomIncreaseAsset(1.0, 0.0),  # f(t) = 1
     })
+
 
     @staticmethod
     def from_namespace(args: argparse.Namespace) -> SimulationConfig:

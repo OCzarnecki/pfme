@@ -1,5 +1,6 @@
-import numpy as np
+import math
 
+import numpy as np
 from tqdm.auto import tqdm
 
 from er_calc.asset import Asset, AssetProviderType
@@ -16,12 +17,10 @@ class Simulation:
 
     def __init__(
         self,
-        metrics: list[RunMetricType],
-        strategies: list[StrategyType],
         config: SimulationConfig
     ):
-        self.metrics = metrics
-        self.strategies = strategies
+        self.metrics = config.metrics
+        self.strategies = config.strategies
         self.config = config
 
         collected_assets = set()
@@ -40,10 +39,16 @@ class Simulation:
         portfolio = Portfolio(self.asset_providers)
 
         for asset_provider in self.asset_providers.values():
-            asset_provider.update_value(c.start_year, np.nan)
+            asset_provider.update_value(c.start_year, math.nan)
         for year in tqdm(np.arange(c.start_year, c.end_year, c.increment)):
+            year = float(year)
+            for strategy in self.strategies:
+                strategy.update_income(portfolio.income, year, c.increment)
+            for strategy in self.strategies:
+                strategy.update_expenses(portfolio.expenses, year, c.increment)
             for strategy in self.strategies:
                 strategy.execute(portfolio, year, c.increment)
+
             for metric in self.metrics:
                 metric.record(portfolio, year)
             for asset_provider in self.asset_providers.values():

@@ -8,8 +8,6 @@ from typing import TypeVar
 class Asset(Enum):
     CASH = auto(),
     ETF_GLOBAL_STOCK = auto(),
-    EXPENSES = auto(),
-    SALARY = auto(),
     SAVINGS_ACCOUNT_VARIABLE_RATE = auto(),
 
 

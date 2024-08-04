@@ -60,5 +60,25 @@ class FIReached(RunMetric):
     def calculate(self, portfolio: Portfolio):
         return (
             portfolio.current_value() * self.withdrawal_rate
-            >= portfolio.asset_value_per_unit(Asset.EXPENSES)
+            >= sum(portfolio.expenses.values())
         )
+
+
+class CashflowStatement(RunMetric):
+    def calculate(self, portfolio: Portfolio):
+        return {
+            "income": [
+                {
+                    "name": key.name,
+                    "value": value,
+                }
+                for key, value in portfolio.income.items()
+            ],
+            "expenses": [
+                {
+                    "name": key.name,
+                    "value": value,
+                }
+                for key, value in portfolio.expenses.items()
+            ]
+        }
